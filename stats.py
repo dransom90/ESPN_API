@@ -60,7 +60,14 @@ class Stats:
         self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
 
     def update_team_points_against(self, team: str, score: float, week: int):
-        print("Not Implemented!")
+
+        range_name = 'Week ' + str(week) + '!' + self.name_to_points_against_cell[team]
+        values = [
+            [score]
+        ]
+        data = {'values' : values}
+
+        self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
     
     def get_team_potential(self, team: str, week: int):
         print("Not Implemented!")
