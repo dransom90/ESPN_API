@@ -61,6 +61,21 @@ class Stats:
 	        "Discount  Belichick" : "D12",
 	    }
 
+        # Team Name to Spreadsheet Cell Dictionary
+        # Standings
+        self.name_to_standings_cell = {
+	        "Hey Baby Let's Go to Vegas" : "W35",
+	        "LA Broncos" : "W36",
+	        "The Chizwit" : "W37",
+	        "how 'bout them Cowboys" : "W38",
+	        "Dos Equis" : "W39",
+	        "cant stop the dopp" : "W40",
+	        "Cobra Kai" : "W41",
+	        "pirate  angel" : "W42",
+	        "Snickle Fritz" : "W43",
+	        "Discount  Belichick" : "W44",
+	    }
+
     def get_boxscores(self, week: int):
         box_scores = self.league.box_scores(week)
 
@@ -157,7 +172,7 @@ class Stats:
             potential += max(dp_scores)
         if hc_scores:
             potential += max(hc_scores)
-
+        
         return potential
 
     def update_team_potential(self, team: str, score: float, week: int):
@@ -167,4 +182,19 @@ class Stats:
         ]
         data = {'values' : values}
 
-        self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute() 
+        self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
+
+    def update_standings(self, week: int):
+        standings = self.league.standings()
+
+        n = len(standings)
+
+        for x in range(n):
+            name = standings[x].team_name
+            pos = x + 1
+            range_name = 'Team Performance' + '!' + self.name_to_standings_cell[name]
+            values = [
+                [pos]
+            ]
+            data = {'values' : values}
+            self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
