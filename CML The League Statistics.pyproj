@@ -47,6 +47,9 @@
     <Compile Include="ESPN_API\utils\logger.py" />
     <Compile Include="ESPN_API\utils\__init__.py" />
     <Compile Include="ESPN_API\__init__.py" />
+    <Compile Include="potential.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="stats.py" />
   </ItemGroup>
   <ItemGroup>
