@@ -12,7 +12,7 @@
     <Name>CML The League Statistics</Name>
     <RootNamespace>CML The League Statistics</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>2020 3</CommandLineArguments>
+    <CommandLineArguments>2020 2</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -47,6 +47,9 @@
     <Compile Include="ESPN_API\utils\logger.py" />
     <Compile Include="ESPN_API\utils\__init__.py" />
     <Compile Include="ESPN_API\__init__.py" />
+    <Compile Include="potential.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="stats.py" />
   </ItemGroup>
   <ItemGroup>

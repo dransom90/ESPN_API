@@ -70,7 +70,75 @@ class Stats:
         self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
     
     def get_team_potential(self, team: str, week: int):
-        print("Not Implemented!")
+        box_scores = self.league.box_scores(week)
+        lineup = None
+
+        for x in range(4):
+            if str(box_scores[x].home_team.team_name) == team:
+                lineup = box_scores[x].home_lineup
+            elif str(box_scores[x].away_team.team_name) == team:
+                lineup = box_scores[x].away_lineup
+
+        n = len(lineup)
+
+        potential = 0.0
+        qb_scores = []
+        rb_scores = []
+        wr_scores = []
+        te_scores = []
+        dp_scores = []
+        hc_scores = []
+        flex_scores = []
+
+        dp_positions = ['LB', 'S', 'DE', 'EDR', 'DT', 'CB']
+
+        for x in range(n):
+            pos = lineup[x].position
+            score = lineup[x].points
+
+            if pos == "TQB":
+                qb_scores.append(score)
+            elif pos == "RB":
+                rb_scores.append(score)
+            elif pos == "WR":
+                wr_scores.append(score)
+            elif pos == "TE":
+                te_scores.append(score)
+            elif pos in dp_positions:
+                dp_scores.append(score)
+            elif pos == "HC":
+                hc_scores.append(score)
+
+        potential += max(qb_scores)
+        potential += max(rb_scores)
+
+        rb_scores.remove(max(rb_scores))
+        potential += max(rb_scores)
+        rb_scores.remove(max(rb_scores))
+
+        potential += max(wr_scores)
+        wr_scores.remove(max(wr_scores))
+        potential += max(wr_scores)
+        wr_scores.remove(max(wr_scores))
+
+        potential += max(te_scores)
+        te_scores.remove(max(te_scores))
+
+        if rb_scores:
+            flex_scores.append(max(rb_scores))
+        if wr_scores:
+            flex_scores.append(max(wr_scores))
+        if te_scores:
+            flex_scores.append(max(te_scores))
+
+        potential += max(flex_scores)
+
+        if dp_scores:
+            potential += max(dp_scores)
+        if hc_scores:
+            potential += max(hc_scores)
+
+        return potential
 
     def update_team_potential(self, team: str, score: float, week: int):
         print("Not Implemented!")
