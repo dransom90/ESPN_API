@@ -51,7 +51,13 @@
     <Compile Include="potential.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="standings.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="stats.py" />
+    <Compile Include="update_all.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ESPN_API\" />
