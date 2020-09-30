@@ -70,8 +70,8 @@
     <Folder Include="ESPN_API\__pycache__\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="client-secret.json" />
     <Content Include="ESPN_API\__pycache__\__init__.cpython-38.pyc" />
-    <Content Include="client_secret.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

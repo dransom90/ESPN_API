@@ -20,7 +20,7 @@ class Awards:
 		self.lowest_potential = ("None", 1000)
 
 		self.scopes = ["https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/spreadsheets"]
-		self.secret_file = "C:\\Users\drans\\source\\repos\\CML The League Statistics\\client_secret.json"
+		self.secret_file = "C:\\Users\\drans\\source\\repos\\CML The League Statistics\\client-secret.json"
 		self.credentials = service_account.Credentials.from_service_account_file(self.secret_file, scopes=self.scopes)
 		self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
 		self.SPREADSHEET_ID = '1tcIT9inKN5aElpOscdC9YDe6UKiP_kJWmJNX_TuEy7g'
