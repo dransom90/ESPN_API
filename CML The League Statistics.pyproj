@@ -25,6 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="awards.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="boxscores.py">
       <SubType>Code</SubType>
     </Compile>
@@ -69,7 +72,6 @@
   <ItemGroup>
     <Content Include="ESPN_API\__pycache__\__init__.cpython-38.pyc" />
     <Content Include="client_secret.json" />
-    <Content Include="the-league-statistics-ddc13ef1d41a.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
