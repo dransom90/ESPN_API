@@ -19,62 +19,65 @@ class Stats:
         # Team Name to Spreadsheet Cell Dictionary
         # Points Scored
         self.name_to_cell = {
-	        "Hey Baby Let's Go to Vegas" : "C3",
-	        "LA Broncos" : "C4",
-	        "The Chizwit" : "C5",
-	        "how 'bout them Cowboys" : "C6",
-	        "Dos Equis" : "C7",
-	        "cant stop the dopp" : "C8",
-	        "Cobra Kai" : "C9",
-	        "pirate  angel" : "C10",
-	        "Snickle Fritz" : "C11",
-	        "Discount  Belichick" : "C12",
+	        "Ryan Muranaka" : "C3",
+	        "Chad Spring" : "C4",
+	        "Mark Andrews" : "C5",
+	        "David Lopez" : "C6",
+	        "Caya Muranaka" : "C7",
+	        "mike dopp" : "C8",
+	        "KJ Patterson" : "C9",
+	        "Jestin Vanderloo" : "C10",
+	        "Bradley Leyland" : "C11",
+	        "DJ Ransom" : "C12",
 	    }
 
         # Team Name to Spreadsheet Cell Dictionary
         # PA
         self.name_to_points_against_cell = {
-	        "Hey Baby Let's Go to Vegas" : "F3",
-	        "LA Broncos" : "F4",
-	        "The Chizwit" : "F5",
-	        "how 'bout them Cowboys" : "F6",
-	        "Dos Equis" : "F7",
-	        "cant stop the dopp" : "F8",
-	        "Cobra Kai" : "F9",
-	        "pirate  angel" : "F10",
-	        "Snickle Fritz" : "F11",
-	        "Discount  Belichick" : "F12",
+	        "Ryan Muranaka" : "F3",
+	        "Chad Spring" : "F4",
+	        "Mark Andrews" : "F5",
+	        "David Lopez" : "F6",
+	        "Caya Muranaka" : "F7",
+	        "mike dopp" : "F8",
+	        "KJ Patterson" : "F9",
+	        "Jestin Vanderloo" : "F10",
+	        "Bradley Leyland" : "F11",
+	        "DJ Ransom" : "F12",
 	    }
 
         # Team Name to Spreadsheet Cell Dictionary
         # PA
         self.name_to_potential_cell = {
-	        "Hey Baby Let's Go to Vegas" : "D3",
-	        "LA Broncos" : "D4",
-	        "The Chizwit" : "D5",
-	        "how 'bout them Cowboys" : "D6",
-	        "Dos Equis" : "D7",
-	        "cant stop the dopp" : "D8",
-	        "Cobra Kai" : "D9",
-	        "pirate  angel" : "D10",
-	        "Snickle Fritz" : "D11",
-	        "Discount  Belichick" : "D12",
+	        "Ryan Muranaka" : "D3",
+	        "Chad Spring" : "D4",
+	        "Mark Andrews" : "D5",
+	        "David Lopez" : "D6",
+	        "Caya Muranaka" : "D7",
+	        "mike dopp" : "D8",
+	        "KJ Patterson" : "D9",
+	        "Jestin Vanderloo" : "D10",
+	        "Bradley Leyland" : "D11",
+	        "DJ Ransom" : "D12",
 	    }
 
         # Team Name to Spreadsheet Cell Dictionary
         # Standings
         self.name_to_standings_cell = {
-	        "Hey Baby Let's Go to Vegas" : "W35",
-	        "LA Broncos" : "W36",
-	        "The Chizwit" : "W37",
-	        "how 'bout them Cowboys" : "W38",
-	        "Dos Equis" : "W39",
-	        "cant stop the dopp" : "W40",
-	        "Cobra Kai" : "W41",
-	        "pirate  angel" : "W42",
-	        "Snickle Fritz" : "W43",
-	        "Discount  Belichick" : "W44",
+	        "Ryan Muranaka" : "W35",
+	        "Chad Spring" : "W36",
+	        "Mark Andrews" : "W37",
+	        "David Lopez" : "W38",
+	        "Caya Muranaka" : "W39",
+	        "mike dopp" : "W40",
+	        "KJ Patterson" : "W41",
+	        "Jestin Vanderloo" : "W42",
+	        "Bradley Leyland" : "W43",
+	        "DJ Ransom" : "W44",
 	    }
+
+    def get_teams(self):
+        return self.league.teams
 
     def get_boxscores(self, week: int):
         box_scores = self.league.box_scores(week)
@@ -82,9 +85,9 @@ class Stats:
         for scores in box_scores:
             yield (scores.home_team.team_name, scores.home_score, scores.away_team.team_name, scores.away_score)
 
-    def update_team_boxscore(self, team: str, score: float, week: int):
+    def update_team_boxscore(self, team: Team, score: float, week: int):
         
-        range_name = 'Week ' + str(week) + '!' + self.name_to_cell[team]
+        range_name = 'Week ' + str(week) + '!' + self.name_to_cell[team.owner]
         values = [
             [score]
         ]
@@ -92,9 +95,9 @@ class Stats:
 
         self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
 
-    def update_team_points_against(self, team: str, score: float, week: int):
+    def update_team_points_against(self, team: Team, score: float, week: int):
 
-        range_name = 'Week ' + str(week) + '!' + self.name_to_points_against_cell[team]
+        range_name = 'Week ' + str(week) + '!' + self.name_to_points_against_cell[team.owner]
         values = [
             [score]
         ]
@@ -102,15 +105,15 @@ class Stats:
 
         self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
     
-    def get_team_potential(self, team: str, week: int):
+    def get_team_potential(self, team: Team, week: int):
         box_scores = self.league.box_scores(week)
         lineup = None
 
         for x in range(5):
-            if str(box_scores[x].home_team.team_name) == team:
+            if str(box_scores[x].home_team.team_name) == team.team_name:
                 lineup = box_scores[x].home_lineup
                 break
-            elif str(box_scores[x].away_team.team_name) == team:
+            elif str(box_scores[x].away_team.team_name) == team.team_name:
                 lineup = box_scores[x].away_lineup
                 break
         
@@ -175,8 +178,8 @@ class Stats:
         
         return potential
 
-    def update_team_potential(self, team: str, score: float, week: int):
-        range_name = 'Week ' + str(week) + '!' + self.name_to_potential_cell[team]
+    def update_team_potential(self, team: Team, score: float, week: int):
+        range_name = 'Week ' + str(week) + '!' + self.name_to_potential_cell[team.owner]
         values = [
             [score]
         ]
@@ -190,9 +193,9 @@ class Stats:
         n = len(standings)
 
         for x in range(n):
-            name = standings[x].team_name
+            team = standings[x]
             pos = x + 1
-            range_name = 'Team Performance' + '!' + self.name_to_standings_cell[name]
+            range_name = 'Team Performance' + '!' + self.name_to_standings_cell[team.owner]
             values = [
                 [pos]
             ]

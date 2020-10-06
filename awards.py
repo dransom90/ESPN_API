@@ -25,10 +25,10 @@ class Awards:
 		self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
 		self.SPREADSHEET_ID = '1tcIT9inKN5aElpOscdC9YDe6UKiP_kJWmJNX_TuEy7g'
 
-	
 	def calculate(self, year: int, week: int):
 		ff_stats = Stats(1525510, year)
 		scores = ff_stats.get_boxscores(week)
+		teams = ff_stats.get_teams()
 
 		matchups = list(scores)
 
@@ -40,13 +40,16 @@ class Awards:
 			away_name = match[2]
 			away_score = match[3]
 
+			home_team = get_team_from_name(home_name, teams)
+			away_team = get_team_from_name(away_name, teams)
+
 			self.add_score(home_name, home_score)
 			self.add_score(away_name, away_score)
 
-			potential = ff_stats.get_team_potential(home_name, week)
+			potential = ff_stats.get_team_potential(home_team, week)
 			self.add_potential_score(home_name, potential)
 
-			potential = ff_stats.get_team_potential(away_name, week)
+			potential = ff_stats.get_team_potential(away_team, week)
 			self.add_potential_score(away_name, potential)
 
 			if home_score > away_score:
@@ -136,3 +139,8 @@ class Awards:
 		data = {'values' : values}
 
 		self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()
+
+def get_team_from_name(name, teams):
+	for team in teams:
+		if team.team_name == name:
+			return team
