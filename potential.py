@@ -10,10 +10,10 @@ def calculate(arg1, arg2):
 	print("\nRetrieving Week " + str(week) + " data from ESPN")
 	ff_stats = Stats(1525510, year)
 
-	teams = ["Hey Baby Let's Go to Vegas", "LA Broncos", "The Chizwit", "how 'bout them Cowboys", "Dos Equis", "cant stop the dopp", "Cobra Kai", "pirate  angel", "Snickle Fritz", "Discount  Belichick"]
+	teams = ff_stats.get_teams()
 
 	for x in teams:
-		print("\n" + x)
+		print("\n" + x.team_name)
 
 		print("\tCalculating...")
 		potential = ff_stats.get_team_potential(x, week)
