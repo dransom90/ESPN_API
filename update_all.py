@@ -2,6 +2,7 @@ import sys
 import boxscores
 import potential
 import standings
+from stats import Stats
 from awards import Awards
 
 n = len(sys.argv)
@@ -14,9 +15,11 @@ print("\nWELCOME TO THE LEAGUE!")
 year = int(sys.argv[1])
 week = int(sys.argv[2])
 
-boxscores.calculate(year, week)
-potential.calculate(year, week)
-standings.calculate(year, week)
+ff_stats = Stats(1525510, year)
+
+boxscores.calculate(year, week, ff_stats)
+potential.calculate(year, week, ff_stats)
+standings.calculate(year, week, ff_stats)
 
 awards = Awards()
 awards.calculate(year, week)
