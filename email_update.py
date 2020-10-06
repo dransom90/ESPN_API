@@ -1,18 +1,28 @@
-import smtplib, ssl
-import getpass
+import smtplib
+
+file = open("Stat Boy Information.txt", "r")
+gmail_password = file.read()
 
 sender_email = "fantasyfootballstatsboy@gmail.com"
 receiver_email = "djransom90@gmail.com"
-port = 465
-password = getpass.getpass(prompt='Password: ', stream=None)
 
-context = ssl.create_default_context()
+to = [receiver_email]
+subject = "Testing 1"
+body = "This is a test email.  It was sent from a python script on my desktop."
+email_text = """\
+From: %s
+To: %s
+Subject: %s
 
-message = """\
-Subject: Testing
+%s
+""" % (sender_email, ", ".join(to), subject, body)
 
-This is a test email.  It was sent from a python script on my desktop."""
+try:
+	server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+	server.ehlo()
+	server.login(sender_email, gmail_password)
+	server.sendmail(sender_email, to, email_text)
+	server.close()
 
-with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-	server.login(sender_email, password)
-	server.sendmail(sender_email, receiver_email, message)
+	print('Email Sent!')
+except Exception as e: print(e)
