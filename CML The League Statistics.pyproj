@@ -32,6 +32,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CML_The_League_Statistics.py" />
+    <Compile Include="email.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ESPN_API\base_league.py" />
     <Compile Include="ESPN_API\base_settings.py" />
     <Compile Include="ESPN_API\football\activity.py" />
