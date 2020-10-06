@@ -7,7 +7,7 @@ from google.oauth2 import service_account
 from math import isclose
 
 class Awards:
-	def __init__(self):
+	def __init__(self, statistics: Stats):
 		self.potential_scores = []
 		self.game_scores = []
 		self.high_scorer = ("None", -10)
@@ -25,10 +25,11 @@ class Awards:
 		self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
 		self.SPREADSHEET_ID = '1tcIT9inKN5aElpOscdC9YDe6UKiP_kJWmJNX_TuEy7g'
 
+		self.ff_stats = statistics
+
 	def calculate(self, year: int, week: int):
-		ff_stats = Stats(1525510, year)
-		scores = ff_stats.get_boxscores(week)
-		teams = ff_stats.get_teams()
+		scores = self.ff_stats.get_boxscores(week)
+		teams = self.ff_stats.get_teams()
 
 		matchups = list(scores)
 
@@ -46,10 +47,10 @@ class Awards:
 			self.add_score(home_name, home_score)
 			self.add_score(away_name, away_score)
 
-			potential = ff_stats.get_team_potential(home_team, week)
+			potential = self.ff_stats.get_team_potential(home_team, week)
 			self.add_potential_score(home_name, potential)
 
-			potential = ff_stats.get_team_potential(away_team, week)
+			potential = self.ff_stats.get_team_potential(away_team, week)
 			self.add_potential_score(away_name, potential)
 
 			if home_score > away_score:

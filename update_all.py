@@ -21,8 +21,7 @@ boxscores.calculate(year, week, ff_stats)
 potential.calculate(year, week, ff_stats)
 standings.calculate(year, week, ff_stats)
 
-awards = Awards()
+awards = Awards(ff_stats)
 awards.calculate(year, week)
-awards.update_awards(week)
 
 print("\nUPDATE COMPLETE!")

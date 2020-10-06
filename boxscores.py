@@ -12,7 +12,7 @@ def calculate(arg1, arg2, arg3):
 
 	teams = ff_stats.get_teams()
 
-	print("\nRetrieving Box Scores for Week" + str(week) + "\n")
+	print("\nRetrieving Box Scores for Week " + str(week) + "\n")
 	scores = ff_stats.get_boxscores(week)
 	matchups = list(scores)
 
