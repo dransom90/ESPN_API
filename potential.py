@@ -1,14 +1,14 @@
 import sys
 from stats import *
 
-def calculate(arg1, arg2):
+def calculate(arg1, arg2, arg3):
 	year = int(arg1)
 	week = int(arg2)
+	ff_stats = arg3
 
 	print("\nPOTENTIAL SCORE CALCULATOR")
 
 	print("\nRetrieving Week " + str(week) + " data from ESPN")
-	ff_stats = Stats(1525510, year)
 
 	teams = ff_stats.get_teams()
 
@@ -22,4 +22,4 @@ def calculate(arg1, arg2):
 		ff_stats.update_team_potential(x, potential, week)
 
 if __name__ == "__calculate__":
-	calculate(sys.argv[1], sys.argv[2])
+	calculate(sys.argv[1], sys.argv[2], sys.argv[3])
