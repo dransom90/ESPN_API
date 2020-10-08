@@ -8,13 +8,19 @@ class EmailUpdate:
 	def __init__(self, statistics: Stats, awards: Awards, week: int):
 		self.ff_stats = statistics
 		self.awards = awards
-		self.body = ""
 		self.week = week
+		self.plain_text = ""
+		self.html = ""
+
+	def send_update(self):
+		self.create_email_body()
+		self.send_email()
 
 	def create_email_body(self):
 		print("Compiling email body")
 		luck_information = self.ff_stats.get_luck_information(self.week)
 
+		#TODO:  Figure out HTML
 		i = 0
 		for x in luck_information:
 			if luck_information[i][1] == 'W':
@@ -23,7 +29,7 @@ class EmailUpdate:
 				win_loss = 'lost'
 
 			next_line = str(luck_information[i][0]) + ' ' + win_loss + ' and would have ' + str(luck_information[i][2]) + ' ' + str(luck_information[i][3]) + ' teams.  Luck Score: ' + str(luck_information[i][4])
-			self.body += ('\n' + next_line)
+			self.plain_text += ('\n' + next_line)
 			i += 1
 
 	def send_email(self):
@@ -41,8 +47,8 @@ class EmailUpdate:
 		message["From"] = sender_email
 		message["To"] = receiver_email
 
-		part1 = MIMEText(self.body, "plain")
-		message.attach(part1)
+		plain_text = MIMEText(self.plain_text, "plain")
+		message.attach(plain_text)
 
 		print("Sending email")
 		try:
