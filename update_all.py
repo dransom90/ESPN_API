@@ -18,7 +18,7 @@ week = int(sys.argv[2])
 
 ff_stats = Stats(1525510, year)
 awards = Awards(ff_stats)
-email_update = EmailUpdate(ff_stats, ff_awards, week)
+email_update = EmailUpdate(ff_stats, awards, week)
 
 boxscores.calculate(year, week, ff_stats)
 potential.calculate(year, week, ff_stats)
