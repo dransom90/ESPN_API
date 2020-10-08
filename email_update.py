@@ -1,4 +1,6 @@
-import smtplib
+import smtplib, ssl
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from stats import Stats
 from awards import Awards
 
@@ -28,28 +30,26 @@ class EmailUpdate:
 		print("Logging into email")
 		file = open("Stat Boy Information.txt", "r")
 		gmail_password = file.read()
+		subject = "Week " + str(self.week) + " Report"
 
 		sender_email = "fantasyfootballstatsboy@gmail.com"
 		receiver_email = "djransom90@gmail.com"
 
 		print("Compiling email")
-		to = [receiver_email]
-		subject = "Week " + str(self.week) + " Report"
-		body = self.body
-		email_text = """\
-		From: %s
-		To: %s
-		Subject: %s
+		message= MIMEMultipart("alternative")
+		message["Subject"] = subject
+		message["From"] = sender_email
+		message["To"] = receiver_email
 
-		%s
-		""" % (sender_email, ", ".join(to), subject, body)
+		part1 = MIMEText(self.body, "plain")
+		message.attach(part1)
 
 		print("Sending email")
 		try:
 			server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 			server.ehlo()
 			server.login(sender_email, gmail_password)
-			server.sendmail(sender_email, to, email_text)
+			server.sendmail(sender_email, receiver_email, message.as_string())
 			server.close()
 
 			print('Email Sent!')
