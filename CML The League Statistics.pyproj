@@ -32,6 +32,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CML_The_League_Statistics.py" />
+    <Compile Include="email_update.py" />
     <Compile Include="ESPN_API\base_league.py" />
     <Compile Include="ESPN_API\base_settings.py" />
     <Compile Include="ESPN_API\football\activity.py" />
@@ -72,6 +73,7 @@
   <ItemGroup>
     <Content Include="client-secret.json" />
     <Content Include="ESPN_API\__pycache__\__init__.cpython-38.pyc" />
+    <Content Include="Owners.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
