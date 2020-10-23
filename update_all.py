@@ -26,6 +26,8 @@ standings.calculate(year, week, ff_stats)
 awards.calculate(year, week)
 
 ff_stats.update_season_record(week)
+ff_stats.determine_winning_streak()
+ff_stats.determine_losing_streak()
 email_update.send_update()
 
 print("\nUPDATE COMPLETE!")
