@@ -83,6 +83,49 @@ class Stats:
 			"DJ Ransom" : "W44",
 		}
 
+	def update_season_record(self, week: int):
+		"""Retrieves the all of the season scores and victory margins up to the designated week.  Updates the spreadsheets with the high and lows for each."""
+		
+		print("Retrieving All Scores...")
+		score_page = self.spreadsheet.worksheet("Scores")
+		scores = score_page.batch_get(['C4:C19', 'E4:E19', 'G4:G19', 'I4:I19', 'K4:K19', 'M4:M19', 'O4:O19', 'Q4:Q19', 'S4:S19', 'U4:U19'])
+
+		flat_scores = []
+		for sublist in scores:
+			for item in sublist:
+				flat_scores.append(float(item[0]))
+		
+		victory_margins = []
+
+		for i in range(1, week + 1):
+			print("Retrieving Victories for Week " + str(i))
+			week_page = self.spreadsheet.worksheet("Week " + str(i))
+			test = week_page.batch_get(['G3:G12'])
+			print(test)
+			victory_margins.append(week_page.batch_get(['G3:G12']))
+
+		flat_victories = []
+		for sublist in victory_margins:
+			for item in sublist:
+				for margin in item:
+					if margin:
+						flat_victories.append(float(margin[0]))
+
+		print("Computing Season Records")
+		high_score = max(flat_scores)
+		low_score = min(flat_scores)
+		largest_victory = max(flat_victories)
+		smallest_victory = min(flat_victories)
+
+		print("Updating Spreadsheet")
+		season_record_page = self.spreadsheet.worksheet("Season Records")
+		season_record_page.batch_update([
+			{
+			'range': 'B2:E2',
+			'values': [[high_score, low_score, largest_victory, smallest_victory]],
+			}
+			])
+
 	def get_luck_information(self, week: int):
 		"""Retrieves the luck scores from the spreadsheet and returns a list of tuples
 		(Team Owner, W/L, beat/lost to, # of teams, Luck Score)
