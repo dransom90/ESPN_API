@@ -33,7 +33,8 @@ class Awards:
 
 		matchups = list(scores)
 
-		print("\nCalculating Awards From Box Scores")
+		print("\nAWARDS UPDATE")
+		print("\n\tCalculating Awards From Box Scores")
 
 		for match in matchups:
 			home_name = match[0]
@@ -58,7 +59,7 @@ class Awards:
 			if away_score > home_score:
 				self.add_victory(away_name, away_score - home_score)
 
-		print("\nCalculating Best and Worst Managers")
+		print("\n\tCalculating Best and Worst Managers")
 		self.worst_manager = self.get_worst_manager()
 		self.best_manager = self.get_best_manager()
 		self.update_awards(week)
@@ -132,7 +133,7 @@ class Awards:
 	def update_awards(self, week: int):
 		cell_number = str(week + 2)
 		
-		print("Updating Awards In Spreadsheet")
+		print("\n\tUpdating Awards In Spreadsheet")
 		range_name = 'Awards!' + 'B' + cell_number + ":I" + cell_number
 		values = [
             [self.low_scorer[0], self.high_scorer[0], self.best_manager[0], self.worst_manager[0], self.highest_potential[0], self.lowest_potential[0], self.largest_victory[0], self.smallest_victory[0]]

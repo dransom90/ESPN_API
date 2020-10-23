@@ -8,6 +8,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 from py_linq import Enumerable
 import numpy as np
+from decimal import *
 
 class Stats:
 	"""Retrieves information from ESPN.  Calculates statistics and updates the spreadsheet"""
@@ -86,7 +87,7 @@ class Stats:
 	def update_season_record(self, week: int):
 		"""Retrieves the all of the season scores and victory margins up to the designated week.  Updates the spreadsheets with the high and lows for each."""
 		
-		print("Retrieving All Scores...")
+		print("\nUpdating Season Records")
 		score_page = self.spreadsheet.worksheet("Scores")
 		scores = score_page.batch_get(['C4:C19', 'E4:E19', 'G4:G19', 'I4:I19', 'K4:K19', 'M4:M19', 'O4:O19', 'Q4:Q19', 'S4:S19', 'U4:U19'])
 
@@ -98,10 +99,7 @@ class Stats:
 		victory_margins = []
 
 		for i in range(1, week + 1):
-			print("Retrieving Victories for Week " + str(i))
 			week_page = self.spreadsheet.worksheet("Week " + str(i))
-			test = week_page.batch_get(['G3:G12'])
-			print(test)
 			victory_margins.append(week_page.batch_get(['G3:G12']))
 
 		flat_victories = []
@@ -111,13 +109,11 @@ class Stats:
 					if margin:
 						flat_victories.append(float(margin[0]))
 
-		print("Computing Season Records")
 		high_score = max(flat_scores)
 		low_score = min(flat_scores)
 		largest_victory = max(flat_victories)
 		smallest_victory = min(flat_victories)
 
-		print("Updating Spreadsheet")
 		season_record_page = self.spreadsheet.worksheet("Season Records")
 		season_record_page.batch_update([
 			{
@@ -131,17 +127,16 @@ class Stats:
 		(Team Owner, W/L, beat/lost to, # of teams, Luck Score)
 		Update the spreadsheet before calling this function."""
 
-		print("Retrieving spreadsheets")
 		luck = self.spreadsheet.worksheet("Luck")
 		week_page = self.spreadsheet.worksheet("Week " + str(week))
 		
-		print("Retrieving scores")
+		# Retrieving scores
 		week_scores = week_page.batch_get(['C3:C12'])
 		scores = []
 		for x in week_scores[0]:
 			scores.append(float(x[0]))
 
-		print("Retrieving win/loss")
+		# Retrieving win/loss from spreadsheet
 		win_loss = week_page.batch_get(['H3:H12'])
 		results = []
 		for x in win_loss[0]:
@@ -150,14 +145,14 @@ class Stats:
 		with open('Owners.txt') as f:
 			owners = f.read().splitlines()
 
-		print("Retrieving luck scores")
+		# Retrieving luck scores from spreadsheet
 		row_number = week + 1
 		range = 'B' + str(row_number) + ':K' + str(row_number)
 		week_luck = luck.batch_get([range])
 
 		luck_report = []
 
-		print("Compiling Luck Report")
+		# Compiling Luck Report
 		i = 0
 		for x in week_luck[0][0]:
 			if results[i] == 'W':

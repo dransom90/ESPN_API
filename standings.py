@@ -8,7 +8,6 @@ def calculate(arg1, arg2, arg3):
 
 	print("\nSTANDINGS UPDATE")
 
-	print("\nUpdating standings...")
 	ff_stats.update_standings(3)
 
 if __name__ == "__calculate__":
