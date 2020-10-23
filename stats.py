@@ -9,6 +9,7 @@ import gspread
 from py_linq import Enumerable
 import numpy as np
 from decimal import *
+import pandas as pd
 
 class Stats:
 	"""Retrieves information from ESPN.  Calculates statistics and updates the spreadsheet"""
@@ -83,6 +84,66 @@ class Stats:
 			"Bradley Leyland" : "W43",
 			"DJ Ransom" : "W44",
 		}
+
+	def determine_winning_streak(self):
+		"""Calculates and updates the longest winning streak for each team"""
+		result_page = self.spreadsheet.worksheet("Win/Loss")
+
+		for i in range(0, 10):
+			cell_range = 'B' + str(i + 2) + ':Q' + str(i + 2)
+			results = result_page.batch_get([cell_range])
+
+			flat_results = []
+			for sublist in results:
+				for entries in sublist:
+					for entry in entries:
+						if entry == 'W':
+							flat_results.append(1)
+						else:
+							flat_results.append(0)
+
+			df = pd.DataFrame({'W': flat_results})
+
+			grouper = (df.W != df.W.shift()).cumsum()
+			df['streak'] = df.groupby(grouper).cumsum()
+
+			streak = max(df['streak'])
+			result_page.batch_update([
+				{
+					'range': 'S' + str(i + 2),
+					'values': [[streak]],
+					}
+				])
+
+	def determine_losing_streak(self):
+		"""Calculates and updates the longest losing streak for each team"""
+		result_page = self.spreadsheet.worksheet("Win/Loss")
+
+		for i in range(0, 10):
+			cell_range = 'B' + str(i + 2) + ':Q' + str(i + 2)
+			results = result_page.batch_get([cell_range])
+
+			flat_results = []
+			for sublist in results:
+				for entries in sublist:
+					for entry in entries:
+						if entry == 'L':
+							flat_results.append(1)
+						else:
+							flat_results.append(0)
+
+			df = pd.DataFrame({'W': flat_results})
+
+			grouper = (df.W != df.W.shift()).cumsum()
+			df['streak'] = df.groupby(grouper).cumsum()
+
+			streak = max(df['streak'])
+			result_page.batch_update([
+				{
+					'range': 'T' + str(i + 2),
+					'values': [[streak]],
+					}
+				])
 
 	def update_season_record(self, week: int):
 		"""Retrieves the all of the season scores and victory margins up to the designated week.  Updates the spreadsheets with the high and lows for each."""
