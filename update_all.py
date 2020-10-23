@@ -24,6 +24,8 @@ boxscores.calculate(year, week, ff_stats)
 potential.calculate(year, week, ff_stats)
 standings.calculate(year, week, ff_stats)
 awards.calculate(year, week)
+
+ff_stats.update_season_record(week)
 email_update.send_update()
 
 print("\nUPDATE COMPLETE!")
