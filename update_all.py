@@ -25,6 +25,7 @@ potential.calculate(year, week, ff_stats)
 standings.calculate(year, week, ff_stats)
 awards.calculate(year, week)
 
+ff_stats.update_team_names()
 ff_stats.update_season_record(week)
 ff_stats.determine_winning_streak()
 ff_stats.determine_losing_streak()

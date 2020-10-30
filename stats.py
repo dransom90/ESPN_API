@@ -85,6 +85,36 @@ class Stats:
 			"DJ Ransom" : "W44",
 		}
 
+	def update_team_names(self):
+		"""Retrieves the Team Owners and current Team Names from ESPN and updates the spreadsheet accordingly"""
+
+		print("\nTEAM NAME UPDATE")
+		team_names = []
+
+		with open('Owners to Cell.txt') as f:
+			owner_info = f.read().splitlines()
+
+		teams = self.league.teams
+
+		for info in owner_info:
+			split_info = info.split('-')
+			name = split_info[0].strip()
+
+			for team in teams:
+				if name == team.owner:
+					team_names.append(team.team_name)
+					break
+
+		team_page = self.spreadsheet.worksheet("Teams")
+		cell_list = team_page.range('B2:B11')
+
+		i = 0
+		for cell in cell_list:
+			cell.value = team_names[i]
+			i += 1
+
+		team_page.update_cells(cell_list)
+
 	def determine_winning_streak(self):
 		"""Calculates and updates the longest winning streak for each team"""
 		result_page = self.spreadsheet.worksheet("Win/Loss")
