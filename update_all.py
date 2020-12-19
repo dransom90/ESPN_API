@@ -2,6 +2,7 @@ import sys
 import boxscores
 import potential
 import standings
+#from time import clock
 from stats import Stats
 from awards import Awards
 from email_update import EmailUpdate
@@ -10,6 +11,9 @@ n = len(sys.argv)
 
 if(n < 3):
 	sys.exit("ERROR!  Must pass in year and week")
+
+#start_time = time.clock()
+#print(start_time)
 
 print("\nWELCOME TO THE LEAGUE!")
 
@@ -32,3 +36,6 @@ ff_stats.determine_losing_streak()
 email_update.send_update()
 
 print("\nUPDATE COMPLETE!")
+
+#end_time = time.clock()
+#print(end_time - start_time)

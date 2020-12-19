@@ -5,3 +5,6 @@
 /client_secret.json
 /client-secret.json
 /Stat Boy Information.txt
+__pycache__/potential.cpython-38.pyc
+*.pyc
+*.pyc

@@ -30,10 +30,11 @@ def calculate(arg1, arg2, arg3):
 		ff_stats.update_team_boxscore(home_team, float(home_score), week)
 		ff_stats.update_team_points_against(home_team, float(away_score), week)
 
-		print("\tUpdating " + str(away_name))
-		print("\t\tScore: " + str(away_score) + " PA: " + str(home_score))
-		ff_stats.update_team_boxscore(away_team, float(away_score), week)
-		ff_stats.update_team_points_against(away_team, float(home_score), week)
+		if away_name != "BYE":
+			print("\tUpdating " + str(away_name))
+			print("\t\tScore: " + str(away_score) + " PA: " + str(home_score))
+			ff_stats.update_team_boxscore(away_team, float(away_score), week)
+			ff_stats.update_team_points_against(away_team, float(home_score), week)
 
 def get_team_from_name(name, teams):
 	for team in teams:

@@ -12,8 +12,7 @@
     <Name>CML The League Statistics</Name>
     <RootNamespace>CML The League Statistics</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>
-    </CommandLineArguments>
+    <CommandLineArguments>2020 14</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -59,6 +58,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="stats.py" />
+    <Compile Include="stopwatch.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="update_all.py">
       <SubType>Code</SubType>
     </Compile>

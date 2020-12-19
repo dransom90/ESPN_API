@@ -33,7 +33,7 @@ class Stats:
 			"Mark Andrews" : "C5",
 			"David Lopez" : "C6",
 			"Caya Muranaka" : "C7",
-			"mike dopp" : "C8",
+			"Kyle Tensmeyer" : "C8",
 			"KJ Patterson" : "C9",
 			"Jestin Vanderloo" : "C10",
 			"Bradley Leyland" : "C11",
@@ -48,7 +48,7 @@ class Stats:
 			"Mark Andrews" : "F5",
 			"David Lopez" : "F6",
 			"Caya Muranaka" : "F7",
-			"mike dopp" : "F8",
+			"Kyle Tensmeyer" : "F8",
 			"KJ Patterson" : "F9",
 			"Jestin Vanderloo" : "F10",
 			"Bradley Leyland" : "F11",
@@ -63,7 +63,7 @@ class Stats:
 			"Mark Andrews" : "D5",
 			"David Lopez" : "D6",
 			"Caya Muranaka" : "D7",
-			"mike dopp" : "D8",
+			"Kyle Tensmeyer" : "D8",
 			"KJ Patterson" : "D9",
 			"Jestin Vanderloo" : "D10",
 			"Bradley Leyland" : "D11",
@@ -78,7 +78,7 @@ class Stats:
 			"Mark Andrews" : "W37",
 			"David Lopez" : "W38",
 			"Caya Muranaka" : "W39",
-			"mike dopp" : "W40",
+			"Kyle Tensmeyer" : "W40",
 			"KJ Patterson" : "W41",
 			"Jestin Vanderloo" : "W42",
 			"Bradley Leyland" : "W43",
@@ -265,7 +265,13 @@ class Stats:
 		box_scores = self.league.box_scores(week)
 
 		for scores in box_scores:
-			yield (scores.home_team.team_name, scores.home_score, scores.away_team.team_name, scores.away_score)
+			try:
+				yield (scores.home_team.team_name, scores.home_score, scores.away_team.team_name, scores.away_score)
+			except AttributeError:
+				if scores.home_team == 0:
+					yield ("BYE", 0, scores.away_team.team_name, scores.away_score)
+				elif scores.away_team == 0:
+					yield (scores.home_team.team_name, scores.home_score, "BYE", 0)
 
 	def update_team_boxscore(self, team: Team, score: float, week: int):
 
@@ -287,11 +293,13 @@ class Stats:
 		box_scores = self.league.box_scores(week)
 		lineup = None
 
-		for x in range(5):
+		count = len(list(box_scores))
+
+		for x in range(count):
 			if str(box_scores[x].home_team.team_name) == team.team_name:
 				lineup = box_scores[x].home_lineup
 				break
-			elif str(box_scores[x].away_team.team_name) == team.team_name:
+			elif str(box_scores[x].away_team != 0 and box_scores[x].away_team.team_name) == team.team_name:
 				lineup = box_scores[x].away_lineup
 				break
 

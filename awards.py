@@ -51,8 +51,9 @@ class Awards:
 			potential = self.ff_stats.get_team_potential(home_team, week)
 			self.add_potential_score(home_name, potential)
 
-			potential = self.ff_stats.get_team_potential(away_team, week)
-			self.add_potential_score(away_name, potential)
+			if away_name != "BYE":
+				potential = self.ff_stats.get_team_potential(away_team, week)
+				self.add_potential_score(away_name, potential)
 
 			if home_score > away_score:
 				self.add_victory(home_name, home_score - away_score)
