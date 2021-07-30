@@ -1,0 +1,5 @@
+To update to the new spreadsheet every year, do the following:
+
+1.  Give the python script access to the spreadsheet by copying the client email from the client-secret file.  Click the Share button in the spreadsheet and copy the email into the users.
+2.	Update the spreadsheet ID in the Stats class
+3.  Enable Less secure app access on the Gmail account
