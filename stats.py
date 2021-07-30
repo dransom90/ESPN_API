@@ -20,7 +20,7 @@ class Stats:
 		self.secret_file = "C:\\Users\\drans\\source\\repos\\CML The League Statistics\\client-secret.json"
 		self.credentials = service_account.Credentials.from_service_account_file(self.secret_file, scopes=self.scopes)
 		self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
-		self.SPREADSHEET_ID = '1tcIT9inKN5aElpOscdC9YDe6UKiP_kJWmJNX_TuEy7g'
+		self.SPREADSHEET_ID = '1g5Q538yWN_fCTbepA17ckjIqAErp3tDeBJaF0okJCZk'
 
 		self.client = gspread.authorize(self.credentials)
 		self.spreadsheet = self.client.open_by_key(self.SPREADSHEET_ID)

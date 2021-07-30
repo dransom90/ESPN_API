@@ -77,6 +77,7 @@
     <Content Include="ESPN_API\__pycache__\__init__.cpython-38.pyc" />
     <Content Include="Owners To Cell.txt" />
     <Content Include="Owners.txt" />
+    <Content Include="Yearly Updates.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
