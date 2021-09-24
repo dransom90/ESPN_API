@@ -23,7 +23,7 @@ class Awards:
 		self.secret_file = "C:\\Users\\drans\\source\\repos\\CML The League Statistics\\client-secret.json"
 		self.credentials = service_account.Credentials.from_service_account_file(self.secret_file, scopes=self.scopes)
 		self.service = discovery.build('sheets', 'v4', credentials=self.credentials)
-		self.SPREADSHEET_ID = '1tcIT9inKN5aElpOscdC9YDe6UKiP_kJWmJNX_TuEy7g'
+		self.SPREADSHEET_ID = '1g5Q538yWN_fCTbepA17ckjIqAErp3tDeBJaF0okJCZk'
 
 		self.ff_stats = statistics
 
@@ -137,8 +137,8 @@ class Awards:
 		print("\n\tUpdating Awards In Spreadsheet")
 		range_name = 'Awards!' + 'B' + cell_number + ":I" + cell_number
 		values = [
-            [self.low_scorer[0], self.high_scorer[0], self.best_manager[0], self.worst_manager[0], self.highest_potential[0], self.lowest_potential[0], self.largest_victory[0], self.smallest_victory[0]]
-        ]
+			[self.low_scorer[0], self.high_scorer[0], self.best_manager[0], self.worst_manager[0], self.highest_potential[0], self.lowest_potential[0], self.largest_victory[0], self.smallest_victory[0]]
+		]
 		data = {'values' : values}
 
 		self.service.spreadsheets().values().update(spreadsheetId=self.SPREADSHEET_ID, body=data, range=range_name, valueInputOption='USER_ENTERED').execute()

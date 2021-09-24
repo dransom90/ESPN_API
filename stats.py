@@ -138,12 +138,10 @@ class Stats:
 			df['streak'] = df.groupby(grouper).cumsum()
 
 			streak = max(df['streak'])
-			result_page.batch_update([
-				{
+			result_page.batch_update([{
 					'range': 'S' + str(i + 2),
 					'values': [[streak]],
-					}
-				])
+					}])
 
 	def determine_losing_streak(self):
 		"""Calculates and updates the longest losing streak for each team"""
@@ -168,12 +166,10 @@ class Stats:
 			df['streak'] = df.groupby(grouper).cumsum()
 
 			streak = max(df['streak'])
-			result_page.batch_update([
-				{
+			result_page.batch_update([{
 					'range': 'T' + str(i + 2),
 					'values': [[streak]],
-					}
-				])
+					}])
 
 	def update_season_record(self, week: int):
 		"""Retrieves the all of the season scores and victory margins up to the designated week.  Updates the spreadsheets with the high and lows for each."""
@@ -206,12 +202,10 @@ class Stats:
 		smallest_victory = min(flat_victories)
 
 		season_record_page = self.spreadsheet.worksheet("Season Records")
-		season_record_page.batch_update([
-			{
+		season_record_page.batch_update([{
 			'range': 'B2:E2',
 			'values': [[high_score, low_score, largest_victory, smallest_victory]],
-			}
-			])
+			}])
 
 	def get_luck_information(self, week: int):
 		"""Retrieves the luck scores from the spreadsheet and returns a list of tuples
@@ -312,6 +306,8 @@ class Stats:
 		te_scores = []
 		dp_scores = []
 		hc_scores = []
+		k_scores = []
+		dst_scores = []
 		flex_scores = []
 
 		dp_positions = ['LB', 'S', 'DE', 'EDR', 'DT', 'CB']
@@ -320,7 +316,7 @@ class Stats:
 			pos = lineup[x].position
 			score = lineup[x].points
 
-			if pos == "TQB":
+			if pos == "QB":
 				qb_scores.append(score)
 			elif pos == "RB":
 				rb_scores.append(score)
@@ -329,9 +325,13 @@ class Stats:
 			elif pos == "TE":
 				te_scores.append(score)
 			elif pos in dp_positions:
-					dp_scores.append(score)
+				dp_scores.append(score)
 			elif pos == "HC":
-					hc_scores.append(score)
+				hc_scores.append(score)
+			elif pos == "K":
+				k_scores.append(score)
+			elif pos == "D/ST":
+				dst_scores.append(score)
 
 		potential += max(qb_scores)
 		potential += max(rb_scores)
@@ -361,6 +361,10 @@ class Stats:
 			potential += max(dp_scores)
 		if hc_scores:
 			potential += max(hc_scores)
+		if k_scores:
+			potential += max(k_scores)
+		if dst_scores:
+			potential += max(dst_scores)
 
 		return potential
 

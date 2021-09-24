@@ -12,7 +12,7 @@
     <Name>CML The League Statistics</Name>
     <RootNamespace>CML The League Statistics</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>2020 14</CommandLineArguments>
+    <CommandLineArguments>2021 2</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
